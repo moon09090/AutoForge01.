@@ -92,6 +92,13 @@ jobs:
             }
           }
           EOF
+      - name: Add app icon
+        run: |
+          if [ -f icon.png ]; then
+            mkdir -p app/src/main/res/drawable
+            cp icon.png app/src/main/res/drawable/ic_launcher.png
+            sed -i 's/<application /<application android:icon="@drawable\/ic_launcher" /' app/src/main/AndroidManifest.xml
+          fi
       - name: Build APK
         run: gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
